@@ -2,6 +2,12 @@ import { userCreateSchema, userReadSchema, userReturnSchema, userSchema, userUpd
 import { addressCreateSchema, addressReadSchema, addressSchema } from "./addresses.schemas";
 import { anouncementSchema, realAnouncementSchema } from "./anouncements.schemas";
 import { imageSchema } from "./images.schemas";
-import { commentSchema } from "./comment.schemas";
+import { commentSchema, commentReturnSchema } from "./comment.schemas";
+import { authSchema } from "./auth.schemas";
 
-export { userCreateSchema, userReadSchema, userReturnSchema, userSchema, userUpdateSchema, addressCreateSchema, addressReadSchema, addressSchema, anouncementSchema, realAnouncementSchema, imageSchema, commentSchema }
+export {
+    userCreateSchema, userReadSchema, userReturnSchema, userSchema,
+    userUpdateSchema, addressCreateSchema, addressReadSchema, addressSchema,
+    anouncementSchema, realAnouncementSchema, imageSchema, commentSchema,
+    authSchema, commentReturnSchema
+}
