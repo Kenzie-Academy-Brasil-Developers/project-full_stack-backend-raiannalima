@@ -21,7 +21,7 @@ export class Address {
     @Column({ length: 150 })
     street: string;
 
-    @Column({ length: 50 })
+    @Column()
     number: number;
 
     @Column({ type: "text", nullable: true })

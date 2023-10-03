@@ -1,9 +1,9 @@
 import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { getRounds, hashSync } from "bcryptjs";
 import { Anouncement } from "./anouncement.entity";
-import { Comments } from "./comments.entity";
+import { Comment } from "./comments.entity";
 
-enum typeAccount {
+export enum typeAccount {
     COMPRADOR = 'Comprador',
     ANUNCIANTE = 'Anunciante'
 }
@@ -19,13 +19,13 @@ export class User {
     @Column({ length: 50, unique: true })
     email: string;
 
-    @Column({ length: 120 })
+    @Column()
     cpf: number;
 
     @Column({ length: 100 })
     tel: string;
 
-    @CreateDateColumn({ type: "date" })
+    @Column({ type: "date" })
     birth: string;
 
     @Column({ length: 50 })
@@ -37,6 +37,6 @@ export class User {
     @OneToMany(() => Anouncement, (anouncements) => anouncements.user)
     anouncements: Array<Anouncement>
 
-    @OneToMany(() => Comments, (c) => c.user)
-    comments: Array<Comments>
+    @OneToMany(() => Comment, (c) => c.user)
+    comments: Array<Comment>
 }

@@ -7,18 +7,18 @@ const create = async (req: Request, res: Response): Promise<Response> => {
     return res.status(201).json(user);
 };
 
-const destroy = async (req: Request, res: Response) => {
-    const userId = req.user.id
-    const response = await userServices.destroy(userId);
+// const destroy = async (req: Request, res: Response) => {
+//     const userId = req.user.id
+//     const response = await userServices.destroy(userId);
 
-    return res.status(204).send(response)
-}
+//     return res.status(204).send(response)
+// }
 
-const update = async (req: Request, res: Response) => {
-    const updatedData: UserUpdate = req.body
-    const userUpdate = req.user.id
-    const updatedUser = await userServices.update(updatedData, userUpdate)
-    return res.send(updatedUser)
-}
+// const update = async (req: Request, res: Response) => {
+//     const updatedData: UserUpdate = req.body
+//     const userUpdate = req.user.id
+//     const updatedUser = await userServices.update(updatedData, userUpdate)
+//     return res.send(updatedUser)
+// }
 
-export default { create, destroy, update };
+export default { create };

@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Decimal128, Entity, ManyToOne, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { User } from "./user.entity";
 import { Image } from "./images.entity";
-import { Comments } from "./comments.entity";
+import { Comment } from "./comments.entity";
 
 @Entity("anouncements")
 export class Anouncement {
@@ -14,7 +14,7 @@ export class Anouncement {
     @Column({ length: 50 })
     model: string;
 
-    @Column({ length: 50 })
+    @Column()
     year: number;
 
     @Column({ length: 150 })
@@ -26,10 +26,10 @@ export class Anouncement {
     @Column({ length: 50 })
     color: string;
 
-    @Column({ length: 50 })
+    @Column()
     price_fipe: number;
 
-    @Column({ length: 50 })
+    @Column()
     price: number;
 
     @Column({ type: "text", nullable: true })
@@ -44,6 +44,6 @@ export class Anouncement {
     @OneToMany(() => Image, (images) => images.anouncement)
     images: Array<Image>
 
-    @OneToMany(() => Comments, (c) => c.anouncement)
-    comments: Array<Comments>
+    @OneToMany(() => Comment, (c) => c.anouncement)
+    comments: Array<Comment>
 }

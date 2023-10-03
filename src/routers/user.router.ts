@@ -1,10 +1,11 @@
 // post, patch, delete
 
 import { Router } from "express";
+import { userControllers } from "../controllers";
 
 export const userRouter: Router = Router();
 
-userRouter.post("")
+userRouter.post("", userControllers.create)
 userRouter.patch("/:id")
 userRouter.delete("/:id")
 
