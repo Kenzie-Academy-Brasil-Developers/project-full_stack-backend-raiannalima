@@ -10,4 +10,6 @@ const commentReturnSchema = commentSchema.extend({
     user: userSchema
 })
 
-export { commentSchema, commentReturnSchema }
+const commentReadSchema = commentReturnSchema.array();
+
+export { commentSchema, commentReturnSchema, commentReadSchema }

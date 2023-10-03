@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { realAnouncementSchema } from "../schemas";
+import { anouncementUpdateSchema, realAnouncementSchema } from "../schemas";
 import { Repository } from "typeorm";
 import { Anouncement } from "../entities";
 
@@ -11,4 +11,6 @@ type AnouncementRead = z.infer<typeof realAnouncementSchema>;
 
 type AnouncementRepo = Repository<Anouncement>;
 
-export { AnouncementCreate, AnouncementReturn, AnouncementRead, AnouncementRepo };
+type AnouncementUpdate = z.infer<typeof anouncementUpdateSchema>;
+
+export { AnouncementCreate, AnouncementReturn, AnouncementRead, AnouncementRepo, AnouncementUpdate };

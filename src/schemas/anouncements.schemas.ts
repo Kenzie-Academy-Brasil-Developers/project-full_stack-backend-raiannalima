@@ -14,7 +14,8 @@ const anouncementSchema = z.object({
     cover_image: z.string().max(200)
 })
 
+const anouncementUpdateSchema = anouncementSchema.partial();
 
 const realAnouncementSchema = anouncementSchema.array();
 
-export { anouncementSchema, realAnouncementSchema }
+export { anouncementSchema, realAnouncementSchema, anouncementUpdateSchema }

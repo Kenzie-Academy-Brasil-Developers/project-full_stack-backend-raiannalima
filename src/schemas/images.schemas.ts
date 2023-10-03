@@ -5,4 +5,10 @@ const imageSchema = z.object({
     image_url: z.string().max(200),
 })
 
-export { imageSchema }
+const imageReturnSchema = imageSchema.omit({
+    id: true
+})
+
+const imageReadSchema = imageReturnSchema.array()
+
+export { imageSchema, imageReturnSchema, imageReadSchema }
