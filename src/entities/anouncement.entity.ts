@@ -38,7 +38,7 @@ export class Anouncement {
     @Column({ length: 200 })
     cover_image: string;
 
-    @ManyToOne(() => User, (user) => user.anouncements)
+    @ManyToOne(() => User, (user) => user.anouncements, { onDelete: "CASCADE" })
     user: User;
 
     @OneToMany(() => Image, (images) => images.anouncement)

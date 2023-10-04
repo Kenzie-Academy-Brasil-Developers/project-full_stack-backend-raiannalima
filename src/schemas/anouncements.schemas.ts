@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { imageReturnSchema } from "./images.schemas";
 
 const anouncementSchema = z.object({
     id: z.number().positive(),
@@ -11,11 +12,17 @@ const anouncementSchema = z.object({
     price_fipe: z.number().positive(),
     price: z.number().positive(),
     description: z.string().max(200).nullable(),
-    cover_image: z.string().max(200)
+    cover_image: z.string().max(200),
+    images: z.array(imageReturnSchema)
+})
+
+const anouncementRequest = anouncementSchema.omit({
+    id: true
 })
 
 const anouncementUpdateSchema = anouncementSchema.partial();
 
 const realAnouncementSchema = anouncementSchema.array();
 
-export { anouncementSchema, realAnouncementSchema, anouncementUpdateSchema }
+
+export { anouncementSchema, realAnouncementSchema, anouncementUpdateSchema, anouncementRequest }

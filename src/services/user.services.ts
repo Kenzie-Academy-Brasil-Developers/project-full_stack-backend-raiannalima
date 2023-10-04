@@ -4,15 +4,18 @@ import { User } from "../entities";
 import { userRepository } from "../repositories";
 import { userCreateSchema, userReadSchema, userReturnSchema } from "../schemas";
 import { AppDataSource } from "../data-source";
+import { hash } from "bcryptjs";
 
 const create = async (payload: UserCreate): Promise<UserReturn> => {
+    const hashedPassword = await hash(payload.password, 10);
+
     const user = userRepository.create({
         birth: payload.birth,
         cpf: payload.cpf,
         email: payload.email,
         name: payload.name,
         tel: payload.tel,
-        password: payload.password,
+        password: hashedPassword,
         typeAccount: payload.typeAccount
     });
 

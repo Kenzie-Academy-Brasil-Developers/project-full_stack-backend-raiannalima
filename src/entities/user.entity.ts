@@ -28,7 +28,7 @@ export class User {
     @Column({ type: "date" })
     birth: string;
 
-    @Column({ length: 50 })
+    @Column({ length: 100 })
     password: string;
 
     @Column({ type: 'enum', enum: typeAccount, default: typeAccount.ANUNCIANTE })

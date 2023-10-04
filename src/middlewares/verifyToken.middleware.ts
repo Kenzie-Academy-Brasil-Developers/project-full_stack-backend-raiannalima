@@ -16,10 +16,7 @@ export const verifyToken = (
         if (error) {
             throw new AppError(error.message, 401);
         }
-        res.locals = {
-            ...res.locals,
-            decoded
-        };
+        res.locals.userId = decoded.sub
     })
 
     return next();

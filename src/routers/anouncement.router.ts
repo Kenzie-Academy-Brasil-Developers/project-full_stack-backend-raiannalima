@@ -1,12 +1,14 @@
-// import { Router } from "express";
+import { Router } from "express";
+import { anouncementControllers } from "../controllers";
+import { verifyToken } from "../middlewares/verifyToken.middleware";
 
-// export const anouncementRouter: Router = Router();
+export const anouncementRouter: Router = Router();
 
-// anouncementRouter.post("/anouncements") // Registro de um anuncio. 
-// anouncementRouter.get("/anouncements") // Listagem dos anuncios.
+anouncementRouter.post("", verifyToken, anouncementControllers.create) // Registro de um anuncio. 
+anouncementRouter.get("", verifyToken, anouncementControllers.list) // Listagem dos anuncios.
 // anouncementRouter.get("/anouncements/:id") // Listagem de um anuncio por id.
 // anouncementRouter.get("/user/:id/anouncements") // Listagem de todos anuncios de um anunciante.
-// anouncementRouter.patch("/anouncements/:id") // Edição de anuncios. 
-// anouncementRouter.delete("/anouncements/:id") // Deletar um anuncio. 
+anouncementRouter.patch("/:id", verifyToken, anouncementControllers.update) // Edição de anuncios. 
+anouncementRouter.delete("/:id", verifyToken, anouncementControllers.destroy) // Deletar um anuncio. 
 
-// export default anouncementRouter;
+export default anouncementRouter;
