@@ -40,59 +40,43 @@ const create = async (payload: UserCreate): Promise<UserReturn> => {
     return userReturnSchema.parse(user);
 };
 
-// const destroy = async (userId: string): Promise<void> => {
-//     const userRepository: UserRepo = AppDataSource.getRepository(User)
+const destroy = async (userId: string): Promise<void> => {
+    const userRepository: UserRepo = AppDataSource.getRepository(User)
 
-//     const findUser = await userRepository.findOne({
-//         where: {
-//             id: userId
-//         }
-//     })
+    const findUser = await userRepository.findOne({
+        where: {
+            id: parseInt(userId)
+        }
+    })
 
-//     if (!findUser) {
-//         throw new AppError("User not found!", 404)
-//     }
+    if (!findUser) {
+        throw new AppError("User not found!", 404)
+    }
 
-//     await userRepository.remove(findUser)
+    await userRepository.remove(findUser)
 
-//     return "User deleted!"
-// };
+    return
+};
 
-// const update = async (updateData: UserUpdate, userId: string): Promise<UserReturn> => {
-//     const userRepository: UserRepo = AppDataSource.getRepository(User)
-//     const user = await userRepository.findOne({
-//         where: {
-//             id: userId
-//         }
-//     })
+const update = async (updateData: UserUpdate, userId: string): Promise<UserReturn> => {
+    const userRepository: UserRepo = AppDataSource.getRepository(User)
+    const user = await userRepository.findOne({
+        where: {
+            id: parseInt(userId)
+        }
+    })
 
-//     if (!user) {
-//         throw new AppError("Invalid id", 404)
-//     }
+    if (!user) {
+        throw new AppError("Invalid id", 404)
+    }
 
-//     const updatedUserObject = {
-//         name: updateData.name ? updateData.name : user.name,
-//         email: updateData.email ? updateData.email : user.email,
-//         cpf: updateData.cpf ? updateData.cpf : user.cpf,
-//         tel: updateData.tel ? updateData.cpf : user.tel,
-//         birth: updateData.birth ? updateData.birth : user.birth,
-//         password: updateData.password ? updateData.password : user.password,
-//         typeAccount: updateData.typeAccount ? updateData.typeAccount : user.typeAccount
-//     }
+    const newUserUpdated = userRepository.create({ ...user, ...updateData })
 
-//     const newUserUpdated = userRepository.create(updatedUserObject)
+    await userRepository.save(
+        newUserUpdated
+    )
 
-//     await userRepository.update(
-//         userId, newUserUpdated
-//     )
+    return userReturnSchema.parse(newUserUpdated)
+}
 
-//     const updatedUser = await userRepository.findOne({
-//         where: {
-//             id: userId
-//         }
-//     })
-
-//     return userCreateSchema.parse(updatedUser) as UserReturn
-// }
-
-export default { create }
+export default { create, destroy, update }

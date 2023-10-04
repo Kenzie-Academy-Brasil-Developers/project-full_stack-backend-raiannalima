@@ -20,7 +20,7 @@ export class User {
     email: string;
 
     @Column()
-    cpf: number;
+    cpf: string;
 
     @Column({ length: 100 })
     tel: string;
