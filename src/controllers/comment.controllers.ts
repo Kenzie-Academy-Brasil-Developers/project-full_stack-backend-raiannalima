@@ -1,13 +1,13 @@
-// import { commentServices } from "../services";
+import { commentServices } from "../services";
 
-// const create = async (req: Request, res: Response) => {
-//     const newComment = await commentServices.create(
-//         req.params.id,
-//         req.user.id,
-//         req.body
-//     );
-//     return res.status(201).send(newComment);
-// };
+export const create = async (req: Request, res: Response) => {
+    const { id: anouncemenId } = req.params;
+    const { id: userId } = req.user;
+    const { body: comment } = req;
+
+    const newComment = await commentServices.create(comment, anouncementId, userId);
+    return res.status(201).json(newComment);
+};
 
 // const destroy = async (req: Request, res: Response) => {
 //     const { anouncement_id, comment_id } = req.params;

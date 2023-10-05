@@ -26,10 +26,20 @@ const update = async (req: Request, res: Response) => {
 };
 
 const list = async (req: Request, res: Response): Promise<Response> => {
-    const userId = res.locals.userId;
-    const anouncements = await anouncementsServices.list(userId);
-    // const anouncements: AnouncementRead = await anouncementsServices.list(userId);
+    const anouncements = await anouncementsServices.list();
     return res.status(200).json(anouncements);
 };
 
-export default { create, list, destroy, update };
+const listId = async (req: Request, res: Response): Promise<Response> => {
+    const userId = parseInt(req.params.id);
+    const anouncement = await anouncementsServices.listId(userId);
+    return res.status(200).json(anouncement)
+}
+
+const listByAdvertiser = async (req: Request, res: Response): Promise<Response> => {
+    const userId = parseInt(req.params.id)
+    const anouncements = await anouncementsServices.listByAdvertiser(userId);
+    return res.status(200).json(anouncements)
+}
+
+export default { create, list, destroy, update, listId, listByAdvertiser };

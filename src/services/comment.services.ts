@@ -1,33 +1,34 @@
-// import { Repository } from "typeorm";
-// import { AppDataSource } from "../data-source";
-// import { Anouncement, Comment, User } from "../entities";
-// import { AnouncementRepo, CommentCreate, CommentRepo, CommentReturn, UserRepo } from "../interfaces";
-// import { commentRepository } from "../repositories";
-// import { commentReadSchema, commentSchema } from "../schemas";
-// import { AppError } from "../errors";
+import { Repository } from "typeorm";
+import { AppDataSource } from "../data-source";
+import { Anouncement, Comment, User } from "../entities";
+import { AnouncementRepo, CommentCreate, CommentRepo, CommentReturn, UserRepo } from "../interfaces";
+import { commentRepository } from "../repositories";
+import { commentReadSchema, commentSchema } from "../schemas";
+import { AppError } from "../errors";
 
-// const create = async (anouncementId: string, userId: string, commentData: Comment): Promise<CommentReturn> => {
-//     const commentRepository: CommentRepo = AppDataSource.getRepository(Comment);
-//     const anouncementRepository: AnouncementRepo = AppDataSource.getRepository(Anouncement);
-//     const userRepository: UserRepo = AppDataSource.getRepository(User);
+export const create = async (comment: any, anouncementId: number, userId: number) => {
+    const usersRepo = AppDataSource.getRepository(User);
+    const anouncementRepo = AppDataSource.getRepository(Anouncement);
+    const commentsRepo = AppDataSource.getRepository(Comment);
 
-//     const user = await userRepository.findOneBy({ id: userId });
-//     const anouncement = await anouncementRepository.findOneBy({
-//         id: anouncementId,
-//     });
+    const user = await usersRepo.findOneBy({
+        id: userId
+    });
 
-//     const createComment: Comment = commentRepository.create({
-//         ...commentData,
-//         user: user!,
-//         anouncement: anouncement!,
-//     });
+    const anouncement = await anouncementRepo.findOneBy({
+        id: anouncementId
+    });
 
-//     await commentRepository.save(createComment);
+    const commentQuery = commentsRepo.create({
+        ...comment,
+        user: user,
+        anouncement: anouncement,
+    });
 
-//     const newComment = commentReadSchema.parse(createComment);
+    const newComment = await commentsRepo.save(commentQuery);
 
-//     return newComment as CommentCreate;
-// };
+    return newComment;
+};
 
 // const read = async (): Promise<CommentCreate> => {
 //     return commentSchema.parse(await commentRepository.find());
@@ -79,4 +80,4 @@
 //     return commentUpdate;
 // };
 
-// export default { create, read, destroy, update };
+export default { create };

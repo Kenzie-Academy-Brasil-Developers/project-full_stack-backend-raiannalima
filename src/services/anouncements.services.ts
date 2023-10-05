@@ -21,6 +21,10 @@ const create = async (userId: string, newData: AnouncementRequest): Promise<Anou
         throw new AppError("This user doesn't exist.");
     }
 
+    if (user.typeAccount !== 'Anunciante') {
+        throw new AppError("User is not Advertiser.");
+    }
+
     const anouncement = anouncementRepository.create({ ...newData, user })
     await anouncementRepository.save(anouncement)
 
@@ -32,9 +36,34 @@ const create = async (userId: string, newData: AnouncementRequest): Promise<Anou
     return anouncementSchema.parse(anouncement)
 };
 
-const list = async (userId: number) => {
+const list = async () => {
     const anouncementRepository = AppDataSource.getRepository(Anouncement)
-    const userRepository = AppDataSource.getRepository(User)
+
+    const anouncements = await anouncementRepository.find()
+
+    return anouncements
+
+};
+
+const listId = async (userId: number) => {
+    const anouncementRepository = AppDataSource.getRepository(Anouncement)
+
+    const anouncement = await anouncementRepository.findOne({
+        where: {
+            id: userId
+        }
+    })
+
+    if (!anouncement) {
+        throw new AppError("Anouncement not found", 404)
+    }
+
+    return anouncement
+}
+
+const listByAdvertiser = async (userId: number) => {
+    console.log(userId)
+    const userRepository = AppDataSource.getRepository(User);
 
     const user = await userRepository.findOne({
         where: {
@@ -46,11 +75,11 @@ const list = async (userId: number) => {
     })
 
     if (!user) {
-        throw new AppError("User not found", 404)
+        throw new AppError("User not found.", 404)
     }
 
     return user.anouncements
-};
+}
 
 const destroy = async (bodyId: string) => {
     const anouncementRepository: AnouncementRepo = AppDataSource.getRepository(Anouncement);
@@ -66,20 +95,18 @@ const destroy = async (bodyId: string) => {
     return { message: "Anouncement deleted!" };
 };
 
-const update = async (data: AnouncementUpdate, body_id: string): Promise<AnouncementRead> => {
+const update = async (data: AnouncementUpdate, body_id: string): Promise<any> => {
     const anouncementRepository: AnouncementRepo =
         AppDataSource.getRepository(Anouncement);
     const findAnouncement = await anouncementRepository.findOne({
         where: {
-            id: body_id
+            id: parseInt(body_id)
         }, relations: {
             user: true,
             comments: {
                 user: true
             },
-            imageUrl: {
-                anouncement: true
-            }
+            images: true
         }
     });
 
@@ -102,25 +129,23 @@ const update = async (data: AnouncementUpdate, body_id: string): Promise<Anounce
 
     const returnedAnouncement = await anouncementRepository.findOne({
         where: {
-            id: body_id
+            id: parseInt(body_id)
         }, relations: {
             user: true,
             comments: {
                 user: true
             },
-            cover_image: {
-                anouncement: true
-            }
+            images: true
         }
-    })
+    });
 
-    const validatedAnouncement =
-        anouncementSchema.parse(returnedAnouncement);
+    // const validatedAnouncement =
+    //     anouncementSchema.parse(returnedAnouncement);
 
-    return validatedAnouncement as Anouncement;
+    return returnedAnouncement;
 };
 
-export default { create, list, destroy, update };
+export default { create, list, destroy, update, listId, listByAdvertiser };
 
 
 
@@ -131,53 +156,4 @@ export default { create, list, destroy, update };
 
 
 
-// REFERENCIA REQUISIÇ˜AO DE CRIAÇ˜AO DE ANUNCIO - DEMOS M4 COM CAUAN: 
 
-// const anouncementRepository: AnouncementRepo = AppDataSource.getRepository(Anouncement);
-// const userRepository: UserRepo = AppDataSource.getRepository(User);
-// const imageGalleryRepository: ImageRepo = AppDataSource.getRepository(Image);
-
-// const user = await userRepository.findOne({
-//     where: {
-//         id: userId,
-//     },
-// });
-
-// const imageGallery = newData.image_url
-
-// const createdAnouncement: Anouncement = anouncementRepository.create({
-//     brand: newData.brand,
-//     model: newData.model,
-//     year: newData.year,
-//     fuel: newData.fuel,
-//     mileage: newData.mileage,
-//     color: newData.color,
-//     price_fipe: newData.price_fipe,
-//     price: newData.price,
-//     description: newData.description,
-//     cover_image: newData.cover_image,
-// });
-
-// await anouncementRepository.save(createdAnouncement);
-
-// if (imageGallery) {
-//     const newImageObj: ImageArray = imageGallery.map((image) => imageGalleryRepository.create({ image_url: image.image_url, anouncement: createdAnouncement }))
-//     await imageGalleryRepository.save(newImageObj)
-// }
-
-// const createdAnouncementReturn = await anouncementRepository.findOne({
-//     where: {
-//         id: createdAnouncement.id,
-//     },
-//     relations: {
-//         comments: true,
-//         user: true,
-//         image_url: true
-//     },
-// });
-
-// const newAnouncement = anouncementSchema.parse(
-//     createdAnouncementReturn
-// );
-
-// return newAnouncement as Anouncement;
