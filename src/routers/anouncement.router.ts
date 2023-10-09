@@ -11,6 +11,6 @@ anouncementRouter.get("", anouncementControllers.list) // Listagem dos anuncios.
 anouncementRouter.get("/advertiser/:id", anouncementControllers.listByAdvertiser) // Listagem de todos anuncios de um anunciante.
 anouncementRouter.get("/:id", anouncementControllers.listId) // Listagem de um anuncio por id.
 anouncementRouter.patch("/:id", verifyToken, isAdvertiserOwner, anouncementControllers.update) // Edição de anuncios. 
-anouncementRouter.delete("/:id", verifyToken, anouncementControllers.destroy) // Deletar um anuncio. 
+anouncementRouter.delete("/:id", verifyToken, isAdvertiserOwner, anouncementControllers.destroy) // Deletar um anuncio. 
 
 export default anouncementRouter;

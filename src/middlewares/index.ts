@@ -6,5 +6,6 @@ import { uniqueEmail } from "./uniqueEmail.middleware";
 import { verifyToken } from "./verifyToken.middleware";
 import { isAdvertiser } from "./isAdvertiser.middleware";
 import { isAdvertiserOwner } from "./isAdvertiserOwner.middleware"
+import { verifyId } from "./verifyId.middleware";
 
-export default { idExists, handleError, validateBody, isAdmin, uniqueEmail, verifyToken, isAdvertiser, isAdvertiserOwner };
+export default { idExists, handleError, validateBody, isAdmin, uniqueEmail, verifyToken, isAdvertiser, isAdvertiserOwner, verifyId };
