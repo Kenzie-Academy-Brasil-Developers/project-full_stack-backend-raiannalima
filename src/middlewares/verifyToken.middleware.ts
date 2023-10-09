@@ -17,6 +17,7 @@ export const verifyToken = (
             throw new AppError(error.message, 401);
         }
         res.locals.userId = decoded.sub
+        res.locals.typeAccount = decoded.typeAccount
     })
 
     return next();

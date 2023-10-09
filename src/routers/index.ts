@@ -1,6 +1,6 @@
 import userRouter from "./user.router";
-// import commentRouter from "./comment.router";
+import commentRouter from "./comment.router";
 // import anouncementRouter from "./anouncement.router";
 import authRouter from "./auth.router";
 
-export { userRouter, authRouter };
+export { userRouter, authRouter, commentRouter };

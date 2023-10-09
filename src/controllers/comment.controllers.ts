@@ -1,33 +1,37 @@
 import { commentServices } from "../services";
+import { Request, Response } from "express";
 
-export const create = async (req: Request, res: Response) => {
+const create = async (req: Request, res: Response) => {
     const { id: anouncemenId } = req.params;
-    const { id: userId } = req.user;
+    const { userId } = res.locals;
     const { body: comment } = req;
 
-    const newComment = await commentServices.create(comment, anouncementId, userId);
+    const newComment = await commentServices.create(comment, Number(anouncemenId), userId);
     return res.status(201).json(newComment);
 };
 
-// const destroy = async (req: Request, res: Response) => {
-//     const { anouncement_id, comment_id } = req.params;
+const list = async (req: Request, res: Response): Promise<Response> => {
+    const anouncemenId = parseInt(req.params.id)
+    const comments = await commentServices.list(anouncemenId);
+    return res.status(200).json(comments)
+}
 
-//     await commentServices.destroy(anouncement_id, req.user.id, comment_id);
+const update = async (req: Request, res: Response) => {
+    const { id: commentId } = req.params;
+    const { body: comment } = req;
 
-//     return res.status(204).send();
-// };
+    const updatedComment = await commentServices.update(comment, parseInt(commentId));
+    return res.status(200).json(updatedComment);
+}
 
-// const update = async (req: Request, res: Response) => {
-//     const { anouncement_id, comment_id } = req.params;
+const destroy = async (req: Request, res: Response) => {
+    console.log("req.params:", req.params);
+    const { id } = req.params;
+    const { userId } = res.locals;
 
-//     const data = await commentServices.update(
-//         anouncement_id,
-//         req.user.id,
-//         comment_id,
-//         req.body
-//     );
+    await commentServices.destroy(userId, parseInt(id));
 
-//     return res.status(200).send(data);
-// };
+    return res.status(204).send();
+};
 
-// export default { create, destroy, update }
+export default { create, list, update, destroy }

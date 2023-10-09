@@ -6,7 +6,7 @@ import { commentRepository } from "../repositories";
 import { commentReadSchema, commentSchema } from "../schemas";
 import { AppError } from "../errors";
 
-export const create = async (comment: any, anouncementId: number, userId: number) => {
+const create = async (comment: any, anouncementId: number, userId: number) => {
     const usersRepo = AppDataSource.getRepository(User);
     const anouncementRepo = AppDataSource.getRepository(Anouncement);
     const commentsRepo = AppDataSource.getRepository(Comment);
@@ -30,54 +30,57 @@ export const create = async (comment: any, anouncementId: number, userId: number
     return newComment;
 };
 
-// const read = async (): Promise<CommentCreate> => {
-//     return commentSchema.parse(await commentRepository.find());
-// };
+const list = async (anouncementId: number) => {
+    const anouncementRepository = AppDataSource.getRepository(Anouncement);
 
-// const destroy = async (anouncementId: string, userId: string, commentId: string): Promise<void> => {
-//     const commentRepository: Repository<Comment> = AppDataSource.getRepository(Comment);
+    const anouncement = await anouncementRepository.findOne({
+        where: {
+            id: anouncementId
+        },
+        relations: {
+            comments: true
+        }
+    })
 
-//     const comment = await commentRepository.findOneBy({
-//         id: commentId,
-//         user: {
-//             id: userId,
-//         },
-//         anouncement: {
-//             id: anouncementId,
-//         },
-//     });
+    if (!anouncement) {
+        throw new AppError("Anouncement not found.", 404)
+    }
 
-//     if (!comment) {
-//         throw new AppError("Comment not found", 404);
-//     }
+    return anouncement.comments
+}
 
-//     await commentRepository.remove(comment);
-// };
+const update = async ({ comment }: any, commentId: number) => {
+    const commentsRepo = AppDataSource.getRepository(Comment);
+    const commentReturn = await commentsRepo.findOneBy({ id: commentId });
 
-// const update = async (anouncementId: string, userId: string, commentId: string, commentData: Comment): Promise<Comment> => {
-//     const commentRepository: Repository<Comment> = AppDataSource.getRepository(Comment);
-//     const comment = await commentRepository.findOneBy({
-//         id: commentId,
-//         user: {
-//             id: userId,
-//         },
-//         anouncement: {
-//             id: anouncementId,
-//         },
-//     });
+    if (!commentReturn) throw new AppError("Comment not found.", 404);
 
-//     if (!comment) {
-//         throw new AppError("Comment not found.", 404);
-//     }
+    commentReturn.comment = comment
 
-//     const commentUpdate = await commentRepository.save({
-//         ...comment,
-//         user: comment.user,
-//         anouncement: comment.anouncement,
-//         comment: commentData.comment,
-//     });
+    const commentFinished = await commentsRepo.save(commentReturn);
+    return commentFinished;
+}
 
-//     return commentUpdate;
-// };
+const destroy = async (userId: number, id: number): Promise<void> => {
+    const commentsRepo = AppDataSource.getRepository(Comment);
 
-export default { create };
+    const comment = await commentsRepo.findOneBy({
+        id: id,
+        // user: {
+        //     id: userId,
+        // },
+        // anouncement: {
+        //     id: anouncementId,
+        // },
+    });
+
+    console.log("comment:", comment)
+
+    if (!comment) {
+        throw new AppError("Comment not found.", 404);
+    }
+
+    await commentsRepo.remove(comment);
+};
+
+export default { create, list, update, destroy };

@@ -139,9 +139,6 @@ const update = async (data: AnouncementUpdate, body_id: string): Promise<any> =>
         }
     });
 
-    // const validatedAnouncement =
-    //     anouncementSchema.parse(returnedAnouncement);
-
     return returnedAnouncement;
 };
 
