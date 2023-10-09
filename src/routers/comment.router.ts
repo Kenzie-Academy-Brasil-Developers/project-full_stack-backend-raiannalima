@@ -7,7 +7,7 @@ import { isCommentOrAnouncementOwner } from "../middlewares/isCommentOrAnounceme
 export const commentRouter: Router = Router();
 
 commentRouter.post("/:id", verifyToken, commentControllers.create) // Criação de um comentário.
-commentRouter.get("/:id", commentControllers.list) // Listagem de comentários de um anúncio. 
+commentRouter.get("/:id", commentControllers.list) // Listagem de todos os comentários de um anúncio. 
 commentRouter.patch("/:id", verifyToken, isCommentOwner, commentControllers.update) // Edição de comentário.
 commentRouter.delete("/:id", verifyToken, isCommentOrAnouncementOwner, commentControllers.destroy) // Deleção de comentário.
 
