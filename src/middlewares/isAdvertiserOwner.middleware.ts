@@ -20,7 +20,7 @@ export const isAdvertiserOwner = async (req: Request, res: Response, next: NextF
 
     if (anouncement!.user.id !== userId) {
         return res.status(403).json({
-            message: "You do not have permission to edit this ad."
+            message: "You do not have permission to edit/delete this ad."
         })
     }
 

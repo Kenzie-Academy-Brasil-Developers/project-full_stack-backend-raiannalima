@@ -39,4 +39,13 @@ export class User {
 
     @OneToMany(() => Comment, (c) => c.user)
     comments: Array<Comment>
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    hashpassword() {
+        const passwordHashed = getRounds(this.password)
+        if (!passwordHashed) {
+            this.password = hashSync(this.password, 10)
+        }
+    }
 }

@@ -29,9 +29,6 @@ export const isCommentOrAnouncementOwner = async (req: Request, res: Response, n
         }
     })
 
-    console.log("--------", comment?.user.id, userId, typeAccount)
-    console.log("========", anouncements!.user.id)
-
     if (comment!.user.id !== userId && anouncements!.user.id !== userId) {
         return res.status(403).json({
             message: "You do not have permission to edit this commit."

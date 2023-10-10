@@ -15,7 +15,7 @@ const create = async (payload: UserCreate): Promise<UserReturn> => {
         email: payload.email,
         name: payload.name,
         tel: payload.tel,
-        password: hashedPassword,
+        password: payload.password,
         typeAccount: payload.typeAccount
     });
 

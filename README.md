@@ -93,7 +93,7 @@ Content-type: application/json;
 }
 ```
 
-###### Response:
+###### Response de sucesso:
 
 ```
 201 Created
@@ -108,6 +108,32 @@ Content-type: application/json;
 	"tel": "51998786777",
 	"birth": "1994/10/10",
 	"typeAccount": "Anunciante"
+}
+```
+
+###### Responses de erro:
+
+-> Criando um usuário se uma chave estiver faltando: 
+
+```
+500 Internal Server Error
+```
+
+```json
+{
+	"message": "Internal server error"
+}
+```
+
+-> Se o CPF ou EMAIL do usuário já existir:
+
+```
+400 Bad Request
+```
+
+```json
+{
+	"message": "User/CPF already exists."
 }
 ```
 
@@ -138,7 +164,7 @@ Content-type: application/json;
 }
 ```
 
-###### Response:
+###### Response de sucesso:
 
 ```
 200 OK
@@ -153,6 +179,20 @@ Content-type: application/json;
 	"tel": "99998888",
 	"birth": "1994/10/10",
 	"typeAccount": "Comprador"
+}
+```
+
+###### Response de erro:
+
+-> Editar um usuário que não é o seu próprio:
+
+```
+403 Forbidden
+```
+
+```json
+{
+	"message": "You do not have permission to edit/delete this user."
 }
 ```
 
@@ -173,10 +213,24 @@ Content-type: application/json;
 Vazio
 ```
 
-###### Response:
+###### Response de sucesso:
 
 ```
 204 No Content
+```
+
+###### Response de erro:
+
+-> Editar um usuário que não é o seu próprio:
+
+```
+403 Forbidden
+```
+
+```json
+{
+	"message": "You do not have permission to edit/delete this user."
+}
 ```
 
 ### Rota de login: 
@@ -205,7 +259,7 @@ Content-type: application/json;
 }
 ```
 
-###### Response:
+###### Response de sucesso:
 
 ```
 200 OK
@@ -214,6 +268,36 @@ Content-type: application/json;
 ```json
 {
 	"token": "token"
+}
+```
+
+###### Responses de erro:
+
+-> Logar com um dado errado:
+
+```
+401 Unauthorized
+```
+
+```json
+{
+	"message": "Email or password wrong"
+}
+```
+
+-> Logar faltando alguma chave:
+
+```
+400 Bad Request
+```
+
+```json
+{
+	"message": {
+		"email": [
+			"Required"
+		]
+	}
 }
 ```
 
@@ -267,7 +351,7 @@ Content-type: application/json;
 }
 ```
 
-###### Response:
+###### Response de sucesso:
 
 ```
 201 Created
@@ -297,6 +381,44 @@ Content-type: application/json;
 			"image_url": "any"
 		}
 	]
+}
+```
+
+###### Responses de erro:
+
+-> Criação de um anúncio sem token:
+
+```
+401 Unauthorized
+```
+
+```json
+{
+	"message": "jwt must be provided"
+}
+```
+
+-> Criação de um anúncio sendo comprador:
+
+```
+400 Bad Request
+```
+
+```json
+{
+	"message": "User is not Advertiser."
+}
+```
+
+-> Criação de um anúncio faltando uma chave:
+
+```
+500 Internal Server Error
+```
+
+```json
+{
+	"message": "Internal server error"
 }
 ```
 
@@ -384,7 +506,7 @@ Content-type: application/json;
 Vazio
 ```
 
-###### Response:
+###### Response de sucesso:
 
 ```
 200 OK
@@ -434,6 +556,20 @@ Vazio
 ]	
 ```
 
+###### Response de erro:
+
+-> Procurar pelos anúncios de um usuário inexistente:
+
+```
+404 Not Found
+```
+
+```json
+{
+	"message": "User not found."
+}
+```
+
 #### Listagem de um anúncio:
 
 ##### -> Requisição - GET:
@@ -451,7 +587,7 @@ Content-type: application/json;
 Vazio
 ```
 
-###### Response:
+###### Response de sucesso:
 
 ```
 200 OK
@@ -470,6 +606,20 @@ Vazio
 	"price": 21900,
 	"description": "Car!",
 	"cover_image": "https://picsum.photos/200/300"
+}
+```
+
+###### Response de erro:
+
+-> Procurar por anúncio inexistente:
+
+```
+404 Not Found
+```
+
+```json
+{
+	"message": "Anouncement not found"
 }
 ```
 
@@ -493,7 +643,7 @@ Content-type: application/json;
 }
 ```
 
-###### Response:
+###### Response de sucesso:
 
 ```
 200 OK
@@ -540,6 +690,44 @@ Content-type: application/json;
 }
 ```
 
+###### Responses de erro:
+
+-> Edição de um anúncio sem token:
+
+```
+401 Unauthorized
+```
+
+```json
+{
+	"message": "jwt must be provided"
+}
+```
+
+-> Edição de um anúncio que não existe:
+
+```
+500 Internal Server Error
+```
+
+```json
+{
+	"message": "Internal server error"
+}
+```
+
+-> Edição de um anúncio sem ser o anunciante:
+
+```
+403 Forbidden
+```
+
+```json
+{
+	"message": "You do not have permission to edit/delete this ad."
+}
+```
+
 #### Deleção de um anúncio:
 
 ##### -> Requisição - DELETE:
@@ -557,10 +745,36 @@ Content-type: application/json;
 Vazio
 ```
 
-###### Response:
+###### Response de sucesso:
 
 ```
 204 No Content
+```
+
+###### Responses de erro:
+
+-> Deleção de um anúncio que não existe:
+
+```
+500 Internal Server Error
+```
+
+```json
+{
+	"message": "Internal server error"
+}
+```
+
+-> Deleção de um anúncio sem ser o anunciante:
+
+```
+403 Forbidden
+```
+
+```json
+{
+	"message": "You do not have permission to edit/delete this ad."
+}
 ```
 
 ### Rotas de comentários: 
@@ -591,7 +805,7 @@ Content-type: application/json;
 }
 ```
 
-###### Response:
+###### Response de sucesso:
 
 ```
 201 Created
@@ -627,6 +841,20 @@ Content-type: application/json;
 }
 ```
 
+###### Responses de erro: 
+
+-> Criação de um comentário sem token:
+
+```
+401 Unauthorized
+```
+
+```json
+{
+	"message": "jwt must be provided"
+}
+```
+
 #### Listagem de todos os comentários de um anúncio:
 
 ##### -> Requisição - GET:
@@ -644,7 +872,7 @@ Content-type: application/json;
 Vazio
 ```
 
-###### Response:
+###### Response de sucesso:
 
 ```
 200 OK
@@ -679,6 +907,20 @@ Vazio
 ]
 ```
 
+###### Response de erro:
+
+-> Procurar pelos comentários em um anúncio inexistente:
+
+```
+404 Not Found
+```
+
+```json
+{
+	"message": "Anouncement not found"
+}
+```
+
 #### Edição de um comentário:
 
 ##### -> Requisição - PATCH:
@@ -698,7 +940,7 @@ Content-type: application/json;
 }
 ```
 
-###### Response:
+###### Response de sucesso:
 
 ```
 200 OK
@@ -708,6 +950,32 @@ Content-type: application/json;
 {
 	"id": 11,
 	"comment": "New comment."
+}
+```
+
+###### Responses de erro:
+
+-> Edição de um comentário que não existe:
+
+```
+500 Internal Server Error
+```
+
+```json
+{
+	"message": "Internal server error"
+}
+```
+
+-> Edição de um comentário que não é o seu, sem ser o anunciante:
+
+```
+403 Forbidden
+```
+
+```json
+{
+	"message": "You do not have permission to edit this commit."
 }
 ```
 
@@ -728,11 +996,41 @@ Content-type: application/json;
 Vazio
 ```
 
-###### Response:
+###### Response de sucesso:
 
 ```
 204 No Content
 ```
+
+###### Responses de erro:
+
+-> Deleção de um comentário que não existe:
+
+```
+500 Internal Server Error
+```
+
+```json
+{
+	"message": "Internal server error"
+}
+```
+
+-> Deleção de um comentário sem ser o anunciante:
+
+```
+403 Forbidden
+```
+
+```json
+{
+	"message": "You do not have permission to edit this commit."
+}
+```
+
+## Este projeto é uma ideia da Kenzie Academy e foi implementado por: 
+
+- [Raianna Lima] (https://github.com/raiannalimacode) 
 
 
 

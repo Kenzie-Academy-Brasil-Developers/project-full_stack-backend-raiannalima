@@ -19,6 +19,10 @@ const create = async (comment: any, anouncementId: number, userId: number) => {
         id: anouncementId
     });
 
+    if (!anouncement) {
+        throw new AppError("Anouncement not found.", 404)
+    }
+
     const commentQuery = commentsRepo.create({
         ...comment,
         user: user,
