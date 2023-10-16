@@ -1,4 +1,4 @@
-# Projeto Full-Stack Backend Motor Shop
+# Projeto Full-Stack Backend Motors Shop
 
 Este é um projeto denominado Motors Shop e trata-se de uma plataforma de e-commerce para a compra e venda de carros.
 Aqui nesta documentação você encontrará as referências da parte backend do projeto. 
