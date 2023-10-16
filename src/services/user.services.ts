@@ -1,15 +1,16 @@
 import { AppError } from "../errors";
-import { UserCreate, UserRead, UserRepo, UserReturn, UserUpdate } from "../interfaces";
+import { UserAddress, UserAddressCreate, UserCreate, UserRead, UserRepo, UserReturn, UserUpdate } from "../interfaces";
 import { User } from "../entities";
 import { userRepository } from "../repositories";
-import { userCreateSchema, userReadSchema, userReturnSchema } from "../schemas";
+import { addressRepository } from "../repositories";
+import { userAddressReturnSchema, userCreateSchema, userReadSchema, userReturnSchema } from "../schemas";
 import { AppDataSource } from "../data-source";
 import { hash } from "bcryptjs";
 
-const create = async (payload: UserCreate): Promise<UserReturn> => {
+const create = async (payload: UserAddressCreate): Promise<UserReturn> => {
     const hashedPassword = await hash(payload.password, 10);
 
-    const user = userRepository.create({
+    const user: any = userRepository.create({
         birth: payload.birth,
         cpf: payload.cpf,
         email: payload.email,
@@ -38,9 +39,23 @@ const create = async (payload: UserCreate): Promise<UserReturn> => {
         throw new AppError("Password is missing.")
     }
 
-    await userRepository.save(user);
+    const newUser = await userRepository.save(user);
 
-    return userReturnSchema.parse(user);
+    const address: any = addressRepository.create({
+        user: newUser.id,
+        cep: payload.cep,
+        state: payload.state,
+        city: payload.city,
+        street: payload.street,
+        number: payload.number,
+        complement: payload.complement
+    })
+
+    await addressRepository.save(address);
+
+    const userReturn = { ...user, ...address }
+
+    return userAddressReturnSchema.parse(userReturn);
 };
 
 const destroy = async (userId: string): Promise<void> => {

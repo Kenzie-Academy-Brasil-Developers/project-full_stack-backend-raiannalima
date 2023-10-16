@@ -1,4 +1,4 @@
-import { UserCreate, UserRead, UserRepo, UserReturn, UserUpdate } from "./user.interfaces";
+import { UserCreate, UserRead, UserRepo, UserReturn, UserUpdate, UserAddress, UserAddressCreate } from "./user.interfaces";
 import { AddressCreate, AddressRead, AddressRepo } from "./address.interface";
 import { AnouncementCreate, AnouncementReturn, AnouncementRead, AnouncementRepo, AnouncementUpdate, AnouncementResponse, AnouncementRequest } from "./anouncement.interface"
 import { ImageCreate, ImageRepo, ImageArray } from "./image.interface";
@@ -6,7 +6,7 @@ import { CommentCreate, CommentReturn, CommentArray, CommentRepo } from "./comme
 import { AuthCreate, AuthToken } from "./auth.interface";
 
 export {
-    UserCreate, UserRead, UserRepo, UserReturn, UserUpdate, AddressCreate, AddressRead, AddressRepo,
+    UserCreate, UserRead, UserRepo, UserReturn, UserUpdate, UserAddress, UserAddressCreate, AddressCreate, AddressRead, AddressRepo,
     AnouncementCreate, AnouncementReturn, AnouncementRead, AnouncementRepo, AnouncementUpdate, AnouncementResponse, AnouncementRequest, ImageCreate, ImageRepo, ImageArray,
     CommentCreate, CommentReturn, CommentArray, CommentRepo, AuthCreate, AuthToken
 };
