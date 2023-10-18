@@ -21,6 +21,7 @@ const userAddress = z.object({
     tel: z.string().max(100),
     birth: z.string(),
     password: z.string().max(100),
+    description: z.string().max(200),
     typeAccount: z.nativeEnum(typeAccount),
     order_date: z.string().or(z.date()),
     cep: z.string().max(100),

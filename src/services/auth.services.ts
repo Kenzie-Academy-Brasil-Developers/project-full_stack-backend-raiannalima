@@ -35,6 +35,10 @@ const loginServices = async (payload: AuthCreate): Promise<AuthToken> => {
 
     return {
         token: token,
+        name: user.name,
+        description: user.description,
+        typeAccount: user.typeAccount,
+        id: user.id
     };
 };
 

@@ -11,6 +11,7 @@ const create = async (payload: UserAddressCreate): Promise<UserReturn> => {
     const hashedPassword = await hash(payload.password, 10);
 
     const user: any = userRepository.create({
+        description: payload.description,
         birth: payload.birth,
         cpf: payload.cpf,
         email: payload.email,
