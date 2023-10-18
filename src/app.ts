@@ -6,7 +6,10 @@ import anouncementRouter from "./routers/anouncement.router";
 import { handleError } from "./middlewares/handleError.middleware";
 
 const app = express();
+const cors = require("cors");
+
 app.use(express.json());
+app.use(cors());
 
 app.use("/comment", commentRouter)
 app.use("/user", userRouter);

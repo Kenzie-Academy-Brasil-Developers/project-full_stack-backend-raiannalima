@@ -31,6 +31,9 @@ export class User {
     @Column({ length: 100 })
     password: string;
 
+    @Column({ length: 200 })
+    description: string;
+
     @Column({ type: 'enum', enum: typeAccount, default: typeAccount.ANUNCIANTE })
     typeAccount: typeAccount;
 

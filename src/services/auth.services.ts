@@ -25,6 +25,8 @@ const loginServices = async (payload: AuthCreate): Promise<AuthToken> => {
     }
 
     const token = jwt.sign({
+        name: user.name,
+        description: user.description,
         typeAccount: user.typeAccount,
     }, process.env.SECRET_KEY!, {
         expiresIn: "24h",

@@ -8,6 +8,7 @@ const userSchema = z.object({
     cpf: z.string().max(50),
     tel: z.string().max(100),
     birth: z.string(),
+    description: z.string().max(200),
     password: z.string().max(100),
     typeAccount: z.nativeEnum(typeAccount)
 })
