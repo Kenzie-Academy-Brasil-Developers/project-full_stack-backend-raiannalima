@@ -39,7 +39,7 @@ const create = async (userId: string, newData: AnouncementRequest): Promise<Anou
 const list = async () => {
     const anouncementRepository = AppDataSource.getRepository(Anouncement)
 
-    const anouncements = await anouncementRepository.find()
+    const anouncements = await anouncementRepository.find({ relations: ["user"] })
 
     return anouncements
 
