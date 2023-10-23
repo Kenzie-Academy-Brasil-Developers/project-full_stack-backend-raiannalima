@@ -98,4 +98,20 @@ const update = async (updateData: UserUpdate, userId: string): Promise<UserRetur
     return userReturnSchema.parse(newUserUpdated)
 }
 
-export default { create, destroy, update }
+const listId = async (userId: number) => {
+    const userRepository = AppDataSource.getRepository(User)
+
+    const user = await userRepository.findOne({
+        where: {
+            id: userId
+        }
+    })
+
+    if (!user) {
+        throw new AppError("User not found", 404)
+    }
+
+    return user
+}
+
+export default { create, destroy, update, listId }

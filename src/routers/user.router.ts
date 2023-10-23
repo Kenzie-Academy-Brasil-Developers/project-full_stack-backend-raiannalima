@@ -11,5 +11,6 @@ export const userRouter: Router = Router();
 userRouter.post("", userControllers.create)
 userRouter.patch("/:id", verifyToken, verifyId, userControllers.update)
 userRouter.delete("/:id", verifyToken, verifyId, userControllers.destroy)
+userRouter.get("/:id", userControllers.listId)
 
 export default userRouter;

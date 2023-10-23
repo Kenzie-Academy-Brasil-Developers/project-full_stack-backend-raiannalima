@@ -22,4 +22,10 @@ const update = async (req: Request, res: Response) => {
     return res.send(updatedUser)
 }
 
-export default { create, destroy, update };
+const listId = async (req: Request, res: Response): Promise<Response> => {
+    const userId = parseInt(req.params.id);
+    const user = await userServices.listId(userId);
+    return res.status(200).json(user)
+}
+
+export default { create, destroy, update, listId };
