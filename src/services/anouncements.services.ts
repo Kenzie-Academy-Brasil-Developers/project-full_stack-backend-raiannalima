@@ -62,8 +62,8 @@ const listId = async (userId: number) => {
 }
 
 const listByAdvertiser = async (userId: number) => {
-    console.log(userId)
     const userRepository = AppDataSource.getRepository(User);
+    const anouncementRepository = AppDataSource.getRepository(Anouncement);
 
     const user = await userRepository.findOne({
         where: {
@@ -78,7 +78,18 @@ const listByAdvertiser = async (userId: number) => {
         throw new AppError("User not found.", 404)
     }
 
-    return user.anouncements
+    const anouncements = await anouncementRepository.find({
+        where: {
+            user: {
+                id: userId
+            }
+        },
+        relations: {
+            user: true
+        }
+    })
+
+    return anouncements
 }
 
 const destroy = async (bodyId: string) => {
