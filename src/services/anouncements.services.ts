@@ -51,6 +51,11 @@ const listId = async (userId: number) => {
     const anouncement = await anouncementRepository.findOne({
         where: {
             id: userId
+        },
+        relations: {
+            user: true,
+            comments: true,
+            images: true
         }
     })
 
