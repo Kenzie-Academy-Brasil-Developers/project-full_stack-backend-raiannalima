@@ -42,7 +42,9 @@ const list = async (anouncementId: number) => {
             id: anouncementId
         },
         relations: {
-            comments: true
+            comments: {
+                user: true
+            }
         }
     })
 

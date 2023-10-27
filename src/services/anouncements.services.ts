@@ -90,7 +90,7 @@ const listByAdvertiser = async (userId: number) => {
             }
         },
         relations: {
-            user: true
+            user: true,
         }
     })
 
